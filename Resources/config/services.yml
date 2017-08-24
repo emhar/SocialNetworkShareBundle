@@ -1,0 +1,11 @@
+services:
+    emhar.social_network_share.provider.facebook:
+        class: Emhar\SocialNetworkShareBundle\Provider\FacebookProvider
+        arguments:
+            - '%emhar.social_network_share.facebook_app_id%'
+            - '%emhar.social_network_share.facebook_app_secret%'
+    emhar.social_network_share.provider.twitter:
+        class: Emhar\SocialNetworkShareBundle\Provider\TwitterProvider
+        arguments:
+            - '%emhar.social_network_share.twitter_consumer_key%'
+            - '%emhar.social_network_share.twitter_consumer_secret%'

@@ -1,0 +1,32 @@
+{
+  "name": "emhar/social-network-share-bundle",
+  "description": "Add a twitter and a facebook service to post in user account",
+  "keywords": [
+    "social network",
+    "symfony"
+  ],
+  "homepage": "https://github.com/emhar/SocialNetworkShareBundle",
+  "type": "symfony-bundle",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Emmanuel Harleaux",
+      "homepage": "https://github.com/emhar"
+    }
+  ],
+  "require": {
+    "symfony/symfony": "3.*",
+    "abraham/twitteroauth": "^0.7.4",
+    "facebook/graph-sdk": "^5.6"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Emhar\\SocialNetworkShareBundle\\": ""
+    }
+  }
+}

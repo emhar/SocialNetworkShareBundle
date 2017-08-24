@@ -93,7 +93,7 @@ class TwitterProvider
                     $message .= ': ' . $error->message;
                 }
                 if (isset($response->error)) {
-                    $message .= ': ' . $response->error->message;
+                    $message .= ': ' . $response->error;
                 }
                 throw new TwitterOAuthException($message);
             }

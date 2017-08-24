@@ -35,9 +35,26 @@ class FacebookProvider
      */
     public function isAccessTokenValid(FacebookAccountHolderInterface $holder): bool
     {
+        return $this->isAccessTokenValueValid($holder->getFacebookAccessToken());
         try {
             $oAuth2Client = $this->facebook->getOAuth2Client();
             $tokenMetadata = $oAuth2Client->debugToken($holder->getFacebookAccessToken());
+            $tokenMetadata->validateExpiration();
+        } catch (FacebookSDKException $e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @param FacebookAccountHolderInterface $holder
+     * @return bool
+     */
+    public function isAccessTokenValueValid(string $value): bool
+    {
+        try {
+            $oAuth2Client = $this->facebook->getOAuth2Client();
+            $tokenMetadata = $oAuth2Client->debugToken($value);
             $tokenMetadata->validateExpiration();
         } catch (FacebookSDKException $e) {
             return false;
@@ -65,7 +82,7 @@ class FacebookProvider
     {
         $helper = $this->facebook->getJavaScriptHelper();
         $accessToken = $helper->getAccessToken();
-        if (!$this->isAccessTokenValid($holder)) {
+        if (!$this->isAccessTokenValueValid($accessToken->getValue())) {
             throw new InvalidAccessTokenException('Access token provided is invalid');
         }
         if (!$accessToken->isLongLived()) {
@@ -90,7 +107,7 @@ class FacebookProvider
      */
     public function post(FacebookAccountHolderInterface $holder, string $message)
     {
-        if($holder->getFacebookId()) {
+        if ($holder->getFacebookId()) {
             if (!$this->isAccessTokenValid($holder)) {
                 throw new InvalidAccessTokenException('Access token provided is invalid');
             }

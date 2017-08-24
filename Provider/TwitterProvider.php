@@ -89,8 +89,11 @@ class TwitterProvider
             ));
             if ($this->twitter->getLastHttpCode() !== 200) {
                 $message = 'A problem occurred in twitter post';
-                if ($error = array_pop($response->errors)) {
+                if (isset($response->errors) && is_array($response->errors) && $error = array_pop($response->errors)) {
                     $message .= ': ' . $error->message;
+                }
+                if (isset($response->error)) {
+                    $message .= ': ' . $response->error->message;
                 }
                 throw new TwitterOAuthException($message);
             }

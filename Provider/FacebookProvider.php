@@ -116,4 +116,22 @@ class FacebookProvider
             ), $holder->getFacebookAccessToken());
         }
     }
+
+    /**
+     * @param FacebookAccountHolderInterface $holder
+     * @param string $url
+     * @throws InvalidAccessTokenException
+     * @throws \Facebook\Exceptions\FacebookSDKException
+     */
+    public function postURL(FacebookAccountHolderInterface $holder, string $url)
+    {
+        if ($holder->getFacebookId()) {
+            if (!$this->isAccessTokenValid($holder)) {
+                throw new InvalidAccessTokenException('Access token provided is invalid');
+            }
+            $this->facebook->post('/me/feed', array(
+                'link' => $url
+            ), $holder->getFacebookAccessToken());
+        }
+    }
 }

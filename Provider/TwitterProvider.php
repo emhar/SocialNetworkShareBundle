@@ -89,14 +89,22 @@ class TwitterProvider
             ));
             if ($this->twitter->getLastHttpCode() !== 200) {
                 $message = 'A problem occurred in twitter post';
-                if (isset($response->errors) && is_array($response->errors) && $error = array_pop($response->errors)) {
+                if ($error = array_pop($response->errors)) {
                     $message .= ': ' . $error->message;
-                }
-                if (isset($response->error)) {
-                    $message .= ': ' . $response->error;
                 }
                 throw new TwitterOAuthException($message);
             }
         }
+    }
+
+    /**
+     * @param TwitterAccountHolderInterface $holder
+     * @param string $url
+     * @throws InvalidAccessTokenException
+     * @throws \Abraham\TwitterOAuth\TwitterOAuthException
+     */
+    public function postURL(TwitterAccountHolderInterface $holder, string $url)
+    {
+        $this->post($holder, $url);
     }
 }
